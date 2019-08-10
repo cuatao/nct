@@ -32,8 +32,9 @@ Setup
     docker-compose up -d 
     ```
 
-2. Run database migration and seeding
+2. Run composer and database migration and seeding
     ```sh
+   docker exec -it nct_app composer install
    docker exec -it nct_app php artisan migrate:fresh --seed
     ```
 4. Visit http://0.0.0.0:8888 on your browser.
