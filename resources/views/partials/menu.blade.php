@@ -11,9 +11,8 @@
                     <a class="nav-link" href="/">Get media</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/playlists">Result</a>
+                    <a class="nav-link" href="/playlists">Crawler result</a>
                 </li>
-
             </ul>
 
             <form class="form-inline my-2 my-lg-0" method="GET" action="/search">

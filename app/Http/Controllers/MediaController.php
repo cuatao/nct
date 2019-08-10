@@ -6,12 +6,19 @@ use Exception;
 use App\Models\Media;
 use App\Models\Playlist;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Facades\MediaCrawlerFactory;
 use GuzzleHttp\Exception\ConnectException;
+use Illuminate\Validation\ValidationException;
 
 class MediaController extends Controller
 {
+    /**
+     * Get data from url source and return to client
+     *
+     * @param Request $request
+     * @return mixed
+     * @throws ValidationException
+     */
     public function getDataFromUrl(Request $request)
     {
         $this->validate($request, [
@@ -32,6 +39,12 @@ class MediaController extends Controller
         }
     }
 
+    /**
+     * Check if media is still active in source website and return new download url
+     *
+     * @param $id
+     * @return mixed
+     */
     public function fetchNewDownloadUrl($id)
     {
         $media = Media::findOrFail($id);
@@ -49,11 +62,17 @@ class MediaController extends Controller
         }
     }
 
+    /**
+     * Search media by keyword
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
     public function search(Request $request)
     {
         $keyword = $request->get('keyword', '');
 
-        $media = Media::query()
+        $media = Media::with('artists')
             ->when($keyword, function ($query, $keyword) {
                 $query->filterByKeyword($keyword);
             })
